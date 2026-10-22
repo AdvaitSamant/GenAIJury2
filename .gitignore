@@ -4,3 +4,4 @@ __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
 intent-classifier-checkpoints/
+.streamlit/secrets.toml
