@@ -57,7 +57,7 @@ class OpenRouterEngine:
             "reasoning": {"enabled": False},
         }
         try:
-            resp = requests.post(self.api_url, headers=headers, json=data, timeout=15)
+            resp = requests.post(self.api_url, headers=headers, json=data, timeout=25)
             if resp.status_code == 200:
                 return True, "OpenRouter API connected successfully."
             return False, f"OpenRouter returned HTTP {resp.status_code}: {resp.text[:120]}"
