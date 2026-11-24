@@ -5,6 +5,7 @@ replacing external API dependencies with zero-latency local generation.
 """
 
 import os
+import re
 import time
 from pathlib import Path
 from typing import Dict, Any, List, Optional
@@ -85,7 +86,14 @@ class LocalQwenEngine:
                     local_files_only=is_local,
                 )
                 self.model.eval()
-                self.loaded_model_id = candidate
+                clean_name = candidate
+                if "models--" in candidate:
+                    m = re.search(r"models--[^-]+--([^/\\]+)", candidate)
+                    if m:
+                        clean_name = m.group(1)
+                elif "/" in candidate or "\\" in candidate:
+                    clean_name = Path(candidate).name
+                self.loaded_model_id = clean_name
                 self.is_loaded = True
 
                 allocated_vram = (

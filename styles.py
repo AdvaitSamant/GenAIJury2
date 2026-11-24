@@ -712,6 +712,10 @@ div[data-baseweb="tab-highlight"] {
   border-radius: 6px;
   padding: 3px 8px;
   color: var(--text-primary);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .badge-status {
   display: inline-flex;

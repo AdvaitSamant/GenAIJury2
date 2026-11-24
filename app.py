@@ -5,6 +5,7 @@ Preserves pipeline logic, session states, data loaders, and models.
 """
 
 import json
+import os
 import re
 import time
 from pathlib import Path
@@ -492,7 +493,14 @@ with tab_chat:
             llm_m = diag.get("llm_metrics", {})
             eng_type = llm_m.get("engine_type", "local")
             is_fallback = llm_m.get("is_fallback", False)
-            model_name = llm_m.get("model_used", "Qwen")
+            raw_model_name = llm_m.get("model_used", "Qwen")
+            if "models--" in str(raw_model_name):
+                m = re.search(r"models--[^-]+--([^/\\]+)", str(raw_model_name))
+                model_name = m.group(1) if m else str(raw_model_name)
+            elif ("\\" in str(raw_model_name) or "/" in str(raw_model_name)) and ("snapshots" in str(raw_model_name) or os.path.exists(str(raw_model_name))):
+                model_name = Path(raw_model_name).name
+            else:
+                model_name = str(raw_model_name)
             gen_time = llm_m.get("generation_time_sec", 0.0)
             tok_speed = llm_m.get("tokens_per_second", 0.0)
             reasoning = llm_m.get("reasoning_details")
