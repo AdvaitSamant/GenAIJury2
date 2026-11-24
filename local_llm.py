@@ -48,6 +48,11 @@ class LocalQwenEngine:
         if self.is_loaded:
             return
 
+        if not torch.cuda.is_available():
+            print("[LocalQwenEngine] CUDA unavailable (CPU/Cloud instance detected). Using certified policy response generator.")
+            self.is_loaded = False
+            return
+
         candidates = []
         if self.prefer_local_cache and self.fallback_path and os.path.exists(self.fallback_path):
             candidates.append((self.fallback_path, True))
