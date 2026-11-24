@@ -6,6 +6,7 @@ Preserves pipeline logic, session states, data loaders, and models.
 
 import json
 import re
+import time
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -40,7 +41,7 @@ else:
 
 
 @st.cache_resource(show_spinner="Loading intent classifier, algorithms, and hybrid LLM engine...")
-def get_pipeline(cache_version: str = "v2.2_hybrid_openrouter"):
+def get_pipeline(cache_version: str = "v2.6_cloud_secrets"):
     """Initializes and caches the end-to-end pipeline in GPU/Cloud memory."""
     pipe = GenAIJuryPipeline(load_llm=True)
     if not hasattr(pipe, "llm_manager") or pipe.llm_manager is None:
@@ -48,6 +49,9 @@ def get_pipeline(cache_version: str = "v2.2_hybrid_openrouter"):
         pipe.llm_manager = HybridLLMManager(prefer_local=True)
         pipe.llm_manager.initialize()
         pipe.llm = pipe.llm_manager.local_engine
+    if hasattr(pipe, "llm_manager") and not hasattr(pipe.llm_manager.api_engine, "get_effective_key"):
+        from openrouter_llm import OpenRouterEngine
+        pipe.llm_manager.api_engine = OpenRouterEngine()
     return pipe
 
 
@@ -57,6 +61,11 @@ if not hasattr(pipeline, "llm_manager") or pipeline.llm_manager is None:
     pipeline.llm_manager = HybridLLMManager(prefer_local=True)
     pipeline.llm_manager.initialize()
     pipeline.llm = pipeline.llm_manager.local_engine
+
+if hasattr(pipeline, "llm_manager") and not hasattr(pipeline.llm_manager.api_engine, "get_effective_key"):
+    from openrouter_llm import OpenRouterEngine
+    pipeline.llm_manager.api_engine = OpenRouterEngine()
+
 
 
 # --- Sidebar: Hardware definition list & Algorithm controls ---
@@ -143,10 +152,26 @@ with st.sidebar:
         unsafe_allow_html=True,
     )
 
-    with st.expander("Cloud API Status & Config", expanded=False):
-        st.caption("Fallback Model: `nvidia/nemotron-3.5-super-vl:free`")
+    if hasattr(pipeline.llm_manager.api_engine, "get_effective_key"):
         current_effective_key = pipeline.llm_manager.api_engine.get_effective_key()
-        api_avail = bool(current_effective_key and len(current_effective_key) > 10)
+    else:
+        current_effective_key = getattr(pipeline.llm_manager.api_engine, "api_key", "") or ""
+    api_avail = bool(current_effective_key and len(current_effective_key) > 10)
+    should_expand = (not api_avail) and (not torch.cuda.is_available() or pipeline.llm_manager.mode == "api_only")
+
+    with st.expander("Cloud API Status & Config", expanded=should_expand):
+        st.caption("Fallback Model: `nvidia/nemotron-3.5-super-vl:free`")
+
+        if not api_avail and not torch.cuda.is_available():
+            st.markdown(
+                """
+                <div style="font-size:11px;color:var(--text-secondary);background:var(--bg-card-subtle);border-left:3px solid var(--accent);padding:8px 10px;border-radius:4px;margin-bottom:10px;line-height:1.4;">
+                  <strong>Cloud Environment Detected (No GPU)</strong><br/>
+                  Enter your OpenRouter key below or add <code>OPENROUTER_API_KEY</code> in Streamlit Secrets to enable full generative responses with Nemotron 3.5.
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
 
         # Allow user to input / update key directly in the UI
         custom_key_val = st.text_input(
@@ -161,13 +186,15 @@ with st.sidebar:
         col_k1, col_k2 = st.columns([1, 1])
         if col_k1.button("Connect Key", key="btn_save_key", use_container_width=True):
             if custom_key_val and len(custom_key_val.strip()) > 10:
-                st.session_state["custom_api_key"] = custom_key_val.strip()
-                pipeline.llm_manager.api_engine.api_key = custom_key_val.strip()
+                clean_k = custom_key_val.strip()
+                st.session_state["custom_api_key"] = clean_k
+                pipeline.llm_manager.api_engine.api_key = clean_k
                 pipeline.llm_manager.api_error = None
                 with st.spinner("Connecting..."):
                     ok, test_msg = pipeline.llm_manager.api_engine.test_connection()
                 if ok:
-                    st.success("Connected!")
+                    st.success("Connected successfully!")
+                    time.sleep(0.4)
                     st.rerun()
                 else:
                     st.error(test_msg)

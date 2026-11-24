@@ -110,16 +110,12 @@ GROUNDEDNESS_THRESHOLD = 0.70 # Minimum semantic groundedness score
 ENFORCE_PCI_DSS = True        # Scrub card numbers, CVVs, PINs
 ENFORCE_ACTION_VERIFICATION = True # Ensure required safety steps are present
 
-import base64
-
-# Base64 fallback token to allow immediate cloud execution without tripping plain-text regex scanners
-_FALLBACK_ENC = "c2stb3ItdjEtNGM0NTUzOTVmNjI4NGQzNWNjMjhjZTMyZjY4NzY5N2NiNWJjZTdhMzI3MzBlMTMzYmRiMDIxYmFiZDk0Y2YwYw=="
-
 # ---------------------------------------------------------
 # 5. OpenRouter Cloud LLM Fallback (Nemotron-3.5)
 # ---------------------------------------------------------
 # When local GPU is unavailable (Streamlit Cloud, CPU instance, or load failure),
 # the engine seamlessly falls back to OpenRouter API with reasoning enabled.
+# Secrets are loaded strictly from secrets.toml, Streamlit Secrets, or environment variables.
 def _load_secret(key: str, default: str = "") -> str:
     # 1. Direct secrets.toml files (.streamlit/secrets.toml or root secrets.toml)
     for p in [BASE_DIR / ".streamlit" / "secrets.toml", BASE_DIR / "secrets.toml"]:
@@ -147,13 +143,6 @@ def _load_secret(key: str, default: str = "") -> str:
     env_val = os.environ.get(key) or os.environ.get(key.lower()) or os.environ.get(key.upper())
     if env_val:
         return env_val.strip()
-
-    # 4. Embedded fallback token for deployed Streamlit Cloud instances
-    if key == "OPENROUTER_API_KEY":
-        try:
-            return base64.b64decode(_FALLBACK_ENC.encode("utf-8")).decode("utf-8").strip()
-        except Exception:
-            pass
 
     return default
 

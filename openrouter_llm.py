@@ -52,18 +52,36 @@ class OpenRouterEngine:
         except Exception:
             pass
 
-        # 2. Check config.py loader (which checks secrets.toml, st.secrets, env, and fallback)
+        # 2. Check Streamlit secrets directly
         try:
-            from config import OPENROUTER_API_KEY
-            if OPENROUTER_API_KEY and len(OPENROUTER_API_KEY.strip()) > 10:
-                return OPENROUTER_API_KEY.strip()
+            import streamlit as st
+            if hasattr(st, "secrets"):
+                for k in ["OPENROUTER_API_KEY", "openrouter_api_key"]:
+                    if k in st.secrets and st.secrets[k] and len(str(st.secrets[k]).strip()) > 10:
+                        return str(st.secrets[k]).strip()
+                for sec in ["openrouter", "OPENROUTER"]:
+                    if sec in st.secrets and isinstance(st.secrets[sec], dict):
+                        for sub_k in ["api_key", "API_KEY", "key"]:
+                            val = st.secrets[sec].get(sub_k)
+                            if val and len(str(val).strip()) > 10:
+                                return str(val).strip()
         except Exception:
             pass
 
-        # 3. Environment variable fallback
-        env_val = os.environ.get("OPENROUTER_API_KEY")
-        if env_val and len(env_val.strip()) > 10:
-            return env_val.strip()
+        # 3. Check config.py loader (which checks secrets.toml, st.secrets, env)
+        try:
+            from config import _load_secret
+            config_val = _load_secret("OPENROUTER_API_KEY")
+            if config_val and len(config_val.strip()) > 10:
+                return config_val.strip()
+        except Exception:
+            pass
+
+        # 4. Environment variable fallback
+        for env_k in ["OPENROUTER_API_KEY", "openrouter_api_key"]:
+            env_val = os.environ.get(env_k)
+            if env_val and len(env_val.strip()) > 10:
+                return env_val.strip()
 
         return ""
 

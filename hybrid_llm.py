@@ -157,9 +157,9 @@ class HybridLLMManager:
             f"Please follow the certified institutional guidance and actions provided below."
         )
         if self.api_error:
-            fallback_msg = f"Cloud API error: {self.api_error}. Falling back to certified policy engine."
+            fallback_msg = f"OpenRouter API error: {self.api_error}. Falling back to certified policy engine."
         elif not self.api_engine.is_available():
-            fallback_msg = "OpenRouter API key is missing. Please configure it in Streamlit Secrets or sidebar."
+            fallback_msg = "OpenRouter API key is not configured. Add key in sidebar or Streamlit Secrets to enable Nemotron-3.5."
         else:
             fallback_msg = "Both Local GPU and OpenRouter API unavailable. Certified policy engine invoked."
 
