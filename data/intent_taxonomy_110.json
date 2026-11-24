@@ -1,0 +1,662 @@
+{
+  "card_lost_or_stolen": {
+    "intent_id": 0,
+    "domain": "Cards",
+    "description": "Report lost, stolen, or misplaced physical card",
+    "sample_count": 2000
+  },
+  "card_freeze_unfreeze": {
+    "intent_id": 1,
+    "domain": "Cards",
+    "description": "Temporarily lock or unlock card controls",
+    "sample_count": 2000
+  },
+  "card_damaged_replacement": {
+    "intent_id": 2,
+    "domain": "Cards",
+    "description": "Request replacement for broken, cracked, or worn card",
+    "sample_count": 2000
+  },
+  "card_pin_change_reset": {
+    "intent_id": 3,
+    "domain": "Cards",
+    "description": "Change or reset payment card 4-digit PIN",
+    "sample_count": 2000
+  },
+  "card_pin_blocked": {
+    "intent_id": 4,
+    "domain": "Cards",
+    "description": "Unblock card after entering wrong PIN 3 times",
+    "sample_count": 2000
+  },
+  "card_activation": {
+    "intent_id": 5,
+    "domain": "Cards",
+    "description": "Activate newly received debit or credit card",
+    "sample_count": 2000
+  },
+  "card_delivery_status": {
+    "intent_id": 6,
+    "domain": "Cards",
+    "description": "Track postal shipping and delivery estimate for physical card",
+    "sample_count": 2000
+  },
+  "card_virtual_disposable_create": {
+    "intent_id": 7,
+    "domain": "Cards",
+    "description": "Generate single-use virtual card for online purchases",
+    "sample_count": 2000
+  },
+  "card_contactless_limit_adjust": {
+    "intent_id": 8,
+    "domain": "Cards",
+    "description": "Adjust or enable/disable contactless tap-to-pay transaction limits",
+    "sample_count": 2000
+  },
+  "card_atm_swallowed": {
+    "intent_id": 9,
+    "domain": "Cards",
+    "description": "Card retained or swallowed by ATM machine",
+    "sample_count": 2000
+  },
+  "card_expiration_renewal": {
+    "intent_id": 10,
+    "domain": "Cards",
+    "description": "Inquire about card expiry date and automatic renewal",
+    "sample_count": 2000
+  },
+  "card_international_travel_notice": {
+    "intent_id": 11,
+    "domain": "Cards",
+    "description": "Notify bank of international travel to avoid fraud blocks",
+    "sample_count": 2000
+  },
+  "card_payment_declined": {
+    "intent_id": 12,
+    "domain": "Cards",
+    "description": "Find reason for point-of-sale card transaction decline",
+    "sample_count": 2000
+  },
+  "card_unrecognized_charge": {
+    "intent_id": 13,
+    "domain": "Cards",
+    "description": "Report suspicious or unrecognized charge on card statement",
+    "sample_count": 2000
+  },
+  "card_cashback_rewards_query": {
+    "intent_id": 14,
+    "domain": "Cards",
+    "description": "Check or redeem card cash-back and reward points",
+    "sample_count": 2000
+  },
+  "card_apple_google_pay_provisioning": {
+    "intent_id": 15,
+    "domain": "Cards",
+    "description": "Add card to Apple Pay, Google Wallet, or digital wallet",
+    "sample_count": 2000
+  },
+  "transfer_domestic_instant": {
+    "intent_id": 16,
+    "domain": "Transfers",
+    "description": "Initiate or check instant domestic bank-to-bank transfer",
+    "sample_count": 2000
+  },
+  "transfer_international_swift": {
+    "intent_id": 17,
+    "domain": "Transfers",
+    "description": "Wire money overseas via SWIFT or international clearing",
+    "sample_count": 2000
+  },
+  "transfer_pending_status": {
+    "intent_id": 18,
+    "domain": "Transfers",
+    "description": "Check why an outgoing or incoming transfer is pending",
+    "sample_count": 2000
+  },
+  "transfer_failed_reversal": {
+    "intent_id": 19,
+    "domain": "Transfers",
+    "description": "Failed payment refund and money reversal inquiry",
+    "sample_count": 2000
+  },
+  "transfer_cancel_recall": {
+    "intent_id": 20,
+    "domain": "Transfers",
+    "description": "Attempt cancellation or recall of a recently sent transfer",
+    "sample_count": 2000
+  },
+  "transfer_add_new_beneficiary": {
+    "intent_id": 21,
+    "domain": "Transfers",
+    "description": "Save a new payee or contact for wire transfers",
+    "sample_count": 2000
+  },
+  "transfer_daily_limit_increase": {
+    "intent_id": 22,
+    "domain": "Transfers",
+    "description": "Request temporary or permanent wire transfer limit increase",
+    "sample_count": 2000
+  },
+  "transfer_scheduled_recurring_setup": {
+    "intent_id": 23,
+    "domain": "Transfers",
+    "description": "Set up automated recurring transfers or standing orders",
+    "sample_count": 2000
+  },
+  "transfer_split_bill_request": {
+    "intent_id": 24,
+    "domain": "Transfers",
+    "description": "Split a transaction or request money from peers",
+    "sample_count": 2000
+  },
+  "transfer_qr_code_pay": {
+    "intent_id": 25,
+    "domain": "Transfers",
+    "description": "Scan and pay using QR code standard",
+    "sample_count": 2000
+  },
+  "payment_direct_debit_setup": {
+    "intent_id": 26,
+    "domain": "Transfers",
+    "description": "Authorize automated direct debit mandate for utilities or bills",
+    "sample_count": 2000
+  },
+  "payment_direct_debit_cancel": {
+    "intent_id": 27,
+    "domain": "Transfers",
+    "description": "Cancel or revoke active direct debit authorization",
+    "sample_count": 2000
+  },
+  "payment_standing_order_modify": {
+    "intent_id": 28,
+    "domain": "Transfers",
+    "description": "Edit or cancel fixed standing order payment",
+    "sample_count": 2000
+  },
+  "payment_utility_bill_pay": {
+    "intent_id": 29,
+    "domain": "Transfers",
+    "description": "Pay water, electricity, council tax, or internet bills",
+    "sample_count": 2000
+  },
+  "payment_merchant_refund_inquiry": {
+    "intent_id": 30,
+    "domain": "Transfers",
+    "description": "Track merchant refund timeline and credit",
+    "sample_count": 2000
+  },
+  "account_balance_check": {
+    "intent_id": 31,
+    "domain": "Accounts",
+    "description": "Check current available balance and cleared funds",
+    "sample_count": 2000
+  },
+  "account_statement_download_pdf": {
+    "intent_id": 32,
+    "domain": "Accounts",
+    "description": "Download official stamped bank statement in PDF format",
+    "sample_count": 2000
+  },
+  "account_overdraft_apply": {
+    "intent_id": 33,
+    "domain": "Accounts",
+    "description": "Apply for arranged overdraft facility or increase limit",
+    "sample_count": 2000
+  },
+  "account_overdraft_fee_inquiry": {
+    "intent_id": 34,
+    "domain": "Accounts",
+    "description": "Overdraft charges and interest fee inquiries",
+    "sample_count": 2000
+  },
+  "account_interest_rate_query": {
+    "intent_id": 35,
+    "domain": "Accounts",
+    "description": "Savings account interest rates, APY, and calculation",
+    "sample_count": 2000
+  },
+  "account_closure_request": {
+    "intent_id": 36,
+    "domain": "Accounts",
+    "description": "Close checking or savings account permanently",
+    "sample_count": 2000
+  },
+  "account_switch_service_cassy": {
+    "intent_id": 37,
+    "domain": "Accounts",
+    "description": "Current account switch service from competitor bank",
+    "sample_count": 2000
+  },
+  "account_joint_holder_add": {
+    "intent_id": 38,
+    "domain": "Accounts",
+    "description": "Add spouse or partner as joint account holder",
+    "sample_count": 2000
+  },
+  "account_dormant_reactivation": {
+    "intent_id": 39,
+    "domain": "Accounts",
+    "description": "Reactivate inactive or dormant bank account",
+    "sample_count": 2000
+  },
+  "account_change_residential_address": {
+    "intent_id": 40,
+    "domain": "Accounts",
+    "description": "Update home address on bank records",
+    "sample_count": 2000
+  },
+  "account_change_phone_email": {
+    "intent_id": 41,
+    "domain": "Accounts",
+    "description": "Update registered telephone number or email address",
+    "sample_count": 2000
+  },
+  "account_open_savings_pot": {
+    "intent_id": 42,
+    "domain": "Accounts",
+    "description": "Create savings sub-account, goal pot, or vault",
+    "sample_count": 2000
+  },
+  "account_iban_bic_swift_lookup": {
+    "intent_id": 43,
+    "domain": "Accounts",
+    "description": "Find IBAN, BIC, SWIFT, and sort code / routing number",
+    "sample_count": 2000
+  },
+  "account_tax_certificate_request": {
+    "intent_id": 44,
+    "domain": "Accounts",
+    "description": "Request annual tax interest certificate or 1099-INT form",
+    "sample_count": 2000
+  },
+  "atm_cash_withdrawal_declined": {
+    "intent_id": 45,
+    "domain": "Cash & ATM",
+    "description": "ATM declined cash withdrawal transaction",
+    "sample_count": 2000
+  },
+  "atm_incorrect_amount_dispensed": {
+    "intent_id": 46,
+    "domain": "Cash & ATM",
+    "description": "ATM gave wrong amount of cash (short dispensed or over dispensed)",
+    "sample_count": 2000
+  },
+  "atm_deposit_cash_not_credited": {
+    "intent_id": 47,
+    "domain": "Cash & ATM",
+    "description": "Cash deposit at ATM not credited to balance",
+    "sample_count": 2000
+  },
+  "atm_locator_nearest_branch": {
+    "intent_id": 48,
+    "domain": "Cash & ATM",
+    "description": "Find nearest physical branch or free cash withdrawal ATM",
+    "sample_count": 2000
+  },
+  "check_deposit_mobile_camera": {
+    "intent_id": 49,
+    "domain": "Cash & ATM",
+    "description": "Deposit paper check using mobile app camera capture",
+    "sample_count": 2000
+  },
+  "check_order_checkbook": {
+    "intent_id": 50,
+    "domain": "Cash & ATM",
+    "description": "Order new paper checkbook",
+    "sample_count": 2000
+  },
+  "check_stop_payment_order": {
+    "intent_id": 51,
+    "domain": "Cash & ATM",
+    "description": "Issue stop payment request on a written check",
+    "sample_count": 2000
+  },
+  "check_clearance_hold_inquiry": {
+    "intent_id": 52,
+    "domain": "Cash & ATM",
+    "description": "Inquire about check funds availability and clearing holds",
+    "sample_count": 2000
+  },
+  "cash_foreign_currency_order": {
+    "intent_id": 53,
+    "domain": "Cash & ATM",
+    "description": "Order foreign currency banknotes for international travel",
+    "sample_count": 2000
+  },
+  "cash_deposit_counter_hours": {
+    "intent_id": 54,
+    "domain": "Cash & ATM",
+    "description": "Check counter cash handling hours and guidelines",
+    "sample_count": 2000
+  },
+  "atm_withdrawal_limit_query": {
+    "intent_id": 55,
+    "domain": "Cash & ATM",
+    "description": "Daily ATM cash withdrawal limit inquiries",
+    "sample_count": 2000
+  },
+  "atm_operator_fee_refund": {
+    "intent_id": 56,
+    "domain": "Cash & ATM",
+    "description": "Refund inquiry for out-of-network ATM surcharge fees",
+    "sample_count": 2000
+  },
+  "loan_personal_application": {
+    "intent_id": 57,
+    "domain": "Loans",
+    "description": "Apply for an unsecured personal loan",
+    "sample_count": 2000
+  },
+  "loan_eligibility_calculator": {
+    "intent_id": 58,
+    "domain": "Loans",
+    "description": "Calculate loan borrowing capacity and monthly installments",
+    "sample_count": 2000
+  },
+  "loan_early_payoff_quotation": {
+    "intent_id": 59,
+    "domain": "Loans",
+    "description": "Request early loan settlement quotation",
+    "sample_count": 2000
+  },
+  "loan_interest_rate_reduction": {
+    "intent_id": 60,
+    "domain": "Loans",
+    "description": "Inquire about lowering APR interest rate on existing loan",
+    "sample_count": 2000
+  },
+  "loan_payment_date_change": {
+    "intent_id": 61,
+    "domain": "Loans",
+    "description": "Change monthly loan installment direct debit due date",
+    "sample_count": 2000
+  },
+  "loan_payment_holiday_deferral": {
+    "intent_id": 62,
+    "domain": "Loans",
+    "description": "Request temporary payment pause or loan holiday",
+    "sample_count": 2000
+  },
+  "mortgage_application_status": {
+    "intent_id": 63,
+    "domain": "Loans",
+    "description": "Track home mortgage loan underwriting status",
+    "sample_count": 2000
+  },
+  "mortgage_remortgage_options": {
+    "intent_id": 64,
+    "domain": "Loans",
+    "description": "Remortgage or switch mortgage deal upon rate expiry",
+    "sample_count": 2000
+  },
+  "mortgage_overpayment_allowance": {
+    "intent_id": 65,
+    "domain": "Loans",
+    "description": "Overpay mortgage balance without penalty",
+    "sample_count": 2000
+  },
+  "mortgage_fixed_rate_expiry": {
+    "intent_id": 66,
+    "domain": "Loans",
+    "description": "Inquiries regarding expiration of promotional mortgage fixed rate",
+    "sample_count": 2000
+  },
+  "credit_limit_increase_request": {
+    "intent_id": 67,
+    "domain": "Loans",
+    "description": "Request credit line limit increase on credit card",
+    "sample_count": 2000
+  },
+  "credit_score_impact_inquiry": {
+    "intent_id": 68,
+    "domain": "Loans",
+    "description": "Understand credit score checks and inquiries",
+    "sample_count": 2000
+  },
+  "debt_consolidation_query": {
+    "intent_id": 69,
+    "domain": "Loans",
+    "description": "Consolidate multiple credit card and loan debts into one payment",
+    "sample_count": 2000
+  },
+  "student_loan_refinancing": {
+    "intent_id": 70,
+    "domain": "Loans",
+    "description": "Refinance or manage student education financing loans",
+    "sample_count": 2000
+  },
+  "invest_portfolio_performance_summary": {
+    "intent_id": 71,
+    "domain": "Investments",
+    "description": "View total portfolio return, gains, and performance summary",
+    "sample_count": 2000
+  },
+  "invest_buy_sell_etf_stock": {
+    "intent_id": 72,
+    "domain": "Investments",
+    "description": "Execute stock, index fund, or ETF trading orders",
+    "sample_count": 2000
+  },
+  "invest_dividend_reinvestment_plan": {
+    "intent_id": 73,
+    "domain": "Investments",
+    "description": "Enable automated dividend reinvestment (DRIP)",
+    "sample_count": 2000
+  },
+  "invest_isa_allowance_limit": {
+    "intent_id": 74,
+    "domain": "Investments",
+    "description": "Tax-free ISA or Roth IRA annual contribution limits",
+    "sample_count": 2000
+  },
+  "invest_robo_advisor_risk_profile": {
+    "intent_id": 75,
+    "domain": "Investments",
+    "description": "Adjust automated robo-advisor risk tolerance profile",
+    "sample_count": 2000
+  },
+  "invest_capital_gains_tax_report": {
+    "intent_id": 76,
+    "domain": "Investments",
+    "description": "Download investment capital gains and tax reporting statement",
+    "sample_count": 2000
+  },
+  "invest_mutual_fund_fees": {
+    "intent_id": 77,
+    "domain": "Investments",
+    "description": "Ongoing expense ratios and platform management fee query",
+    "sample_count": 2000
+  },
+  "crypto_wallet_withdrawal": {
+    "intent_id": 78,
+    "domain": "Investments",
+    "description": "Transfer cryptocurrency to external wallet address",
+    "sample_count": 2000
+  },
+  "crypto_purchase_supported_coins": {
+    "intent_id": 79,
+    "domain": "Investments",
+    "description": "Buy cryptocurrency tokens and check supported coins",
+    "sample_count": 2000
+  },
+  "crypto_network_gas_fee_query": {
+    "intent_id": 80,
+    "domain": "Investments",
+    "description": "Blockchain network gas and transaction fee inquiries",
+    "sample_count": 2000
+  },
+  "pension_retirement_transfer": {
+    "intent_id": 81,
+    "domain": "Investments",
+    "description": "Consolidate or transfer workplace pension plans",
+    "sample_count": 2000
+  },
+  "wealth_private_banking_adviser": {
+    "intent_id": 82,
+    "domain": "Investments",
+    "description": "Request consultation with private wealth manager",
+    "sample_count": 2000
+  },
+  "security_unauthorized_transaction_alert": {
+    "intent_id": 83,
+    "domain": "Security",
+    "description": "Report fraudulent activity and compromised account access",
+    "sample_count": 2000
+  },
+  "security_identity_verification_kyc": {
+    "intent_id": 84,
+    "domain": "Security",
+    "description": "Submit passport or ID documents for KYC verification",
+    "sample_count": 2000
+  },
+  "security_two_factor_auth_reset": {
+    "intent_id": 85,
+    "domain": "Security",
+    "description": "Reset 2FA authenticator app or phone verification",
+    "sample_count": 2000
+  },
+  "security_password_forgotten": {
+    "intent_id": 86,
+    "domain": "Security",
+    "description": "Forgot login password or unlock online banking access",
+    "sample_count": 2000
+  },
+  "security_biometric_faceid_touchid_error": {
+    "intent_id": 87,
+    "domain": "Security",
+    "description": "Fix FaceID, fingerprint, or biometric login errors",
+    "sample_count": 2000
+  },
+  "security_suspicious_phishing_email_report": {
+    "intent_id": 88,
+    "domain": "Security",
+    "description": "Forward or report phishing email, SMS smishing, or scam text",
+    "sample_count": 2000
+  },
+  "security_unknown_device_login_warning": {
+    "intent_id": 89,
+    "domain": "Security",
+    "description": "Inquire about unrecognized device login notification",
+    "sample_count": 2000
+  },
+  "security_scam_call_verification": {
+    "intent_id": 90,
+    "domain": "Security",
+    "description": "Verify if a telephone call was genuine bank staff or scammer",
+    "sample_count": 2000
+  },
+  "security_trusted_beneficiary_cooling_period": {
+    "intent_id": 91,
+    "domain": "Security",
+    "description": "Inquire about 24-hour security delay for new payee transfers",
+    "sample_count": 2000
+  },
+  "security_passport_id_document_rejected": {
+    "intent_id": 92,
+    "domain": "Security",
+    "description": "Assistance when uploaded ID document is rejected by system",
+    "sample_count": 2000
+  },
+  "security_freeze_all_digital_access": {
+    "intent_id": 93,
+    "domain": "Security",
+    "description": "Emergency lockdown of all online banking, cards, and logins",
+    "sample_count": 2000
+  },
+  "security_update_security_questions": {
+    "intent_id": 94,
+    "domain": "Security",
+    "description": "Update account security challenge questions and answers",
+    "sample_count": 2000
+  },
+  "security_data_breach_inquiry": {
+    "intent_id": 95,
+    "domain": "Security",
+    "description": "Inquire if personal customer data was impacted in security leaks",
+    "sample_count": 2000
+  },
+  "security_device_lost_revoke_tokens": {
+    "intent_id": 96,
+    "domain": "Security",
+    "description": "De-register lost phone or revoke digital session tokens",
+    "sample_count": 2000
+  },
+  "fee_monthly_maintenance_waiver": {
+    "intent_id": 97,
+    "domain": "Fees & Support",
+    "description": "Inquire about monthly account maintenance fee or waiver criteria",
+    "sample_count": 2000
+  },
+  "fee_international_transaction_charge": {
+    "intent_id": 98,
+    "domain": "Fees & Support",
+    "description": "Foreign transaction FX markup fee dispute",
+    "sample_count": 2000
+  },
+  "fee_wire_transfer_cost_query": {
+    "intent_id": 99,
+    "domain": "Fees & Support",
+    "description": "Domestic and international wire transfer service fee query",
+    "sample_count": 2000
+  },
+  "fee_chargeback_status_update": {
+    "intent_id": 100,
+    "domain": "Fees & Support",
+    "description": "Track open dispute or merchant chargeback claim",
+    "sample_count": 2000
+  },
+  "fee_late_payment_penalty_dispute": {
+    "intent_id": 101,
+    "domain": "Fees & Support",
+    "description": "Request waiver or dispute late credit card payment fee",
+    "sample_count": 2000
+  },
+  "complaint_poor_service_escalation": {
+    "intent_id": 102,
+    "domain": "Fees & Support",
+    "description": "File formal complaint regarding customer service experience",
+    "sample_count": 2000
+  },
+  "complaint_ombudsman_referral": {
+    "intent_id": 103,
+    "domain": "Fees & Support",
+    "description": "Request final response letter for Financial Ombudsman escalation",
+    "sample_count": 2000
+  },
+  "support_talk_to_human_agent": {
+    "intent_id": 104,
+    "domain": "Fees & Support",
+    "description": "Request live human representative or specialist transfer",
+    "sample_count": 2000
+  },
+  "support_schedule_branch_appointment": {
+    "intent_id": 105,
+    "domain": "Fees & Support",
+    "description": "Book appointment with specialist at physical branch",
+    "sample_count": 2000
+  },
+  "support_operating_hours_holidays": {
+    "intent_id": 106,
+    "domain": "Fees & Support",
+    "description": "Customer service telephone and branch operating hours",
+    "sample_count": 2000
+  },
+  "gdpr_right_to_be_forgotten": {
+    "intent_id": 107,
+    "domain": "Fees & Support",
+    "description": "Request personal data deletion under GDPR / CCPA privacy law",
+    "sample_count": 2000
+  },
+  "gdpr_subject_access_request_export": {
+    "intent_id": 108,
+    "domain": "Fees & Support",
+    "description": "Request full GDPR Subject Access Request (SAR) data export",
+    "sample_count": 2000
+  },
+  "accessibility_audio_braille_services": {
+    "intent_id": 109,
+    "domain": "Fees & Support",
+    "description": "Request accessible banking materials (Braille, large print, audio)",
+    "sample_count": 2000
+  }
+}

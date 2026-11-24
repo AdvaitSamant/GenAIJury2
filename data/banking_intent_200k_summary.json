@@ -1,0 +1,46 @@
+{
+  "total_rows": 220000,
+  "total_intents": 110,
+  "domain_distribution": {
+    "Cards": 32000,
+    "Transfers": 30000,
+    "Security": 28000,
+    "Loans": 28000,
+    "Accounts": 28000,
+    "Fees & Support": 26000,
+    "Investments": 24000,
+    "Cash & ATM": 24000
+  },
+  "sample_rows": [
+    {
+      "text": "Please advise on how to what is my total investment portfolio return year-to-date before the end of the day?",
+      "label_text": "invest_portfolio_performance_summary",
+      "domain": "Investments",
+      "label": 63
+    },
+    {
+      "text": "I am trying to i can't find my ATM card just now and need to cancel it right now urgently?",
+      "label_text": "card_lost_or_stolen",
+      "domain": "Cards",
+      "label": 31
+    },
+    {
+      "text": "Please advise on how to i lost my iPad, please log out all active app sessions immediately as soon as possible?",
+      "label_text": "security_device_lost_revoke_tokens",
+      "domain": "Security",
+      "label": 83
+    },
+    {
+      "text": "Where can I escalate my issue to a senior operations supervisor immediately from my account on my statement (ref #1617).",
+      "label_text": "complaint_poor_service_escalation",
+      "domain": "Fees & Support",
+      "label": 44
+    },
+    {
+      "text": "Why is there a 5-day funds hold on my deposited check of $5,000 straight away.",
+      "label_text": "check_clearance_hold_inquiry",
+      "domain": "Cash & ATM",
+      "label": 39
+    }
+  ]
+}

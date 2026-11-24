@@ -1,0 +1,925 @@
+{
+  "accuracy": 0.9997272727272727,
+  "top3_accuracy": 0.9998181818181818,
+  "top5_accuracy": 0.9999545454545454,
+  "macro_precision": 0.9997338038497071,
+  "macro_recall": 0.9997279056727553,
+  "macro_f1": 0.9997300766122236,
+  "weighted_precision": 0.9997290493408227,
+  "weighted_recall": 0.9997272727272727,
+  "weighted_f1": 0.9997273775477135,
+  "matthews_corrcoef": 0.9997247728306696,
+  "expected_calibration_error": 0.03934093461930755,
+  "brier_score": 0.0019144578836858273,
+  "cross_entropy": 0.04133726092038435,
+  "class_performance": [
+    {
+      "class_id": 0,
+      "name": "accessibility_audio_braille_services",
+      "f1": 1.0,
+      "support": 210
+    },
+    {
+      "class_id": 1,
+      "name": "account_balance_check",
+      "f1": 1.0,
+      "support": 211
+    },
+    {
+      "class_id": 2,
+      "name": "account_change_phone_email",
+      "f1": 1.0,
+      "support": 182
+    },
+    {
+      "class_id": 3,
+      "name": "account_change_residential_address",
+      "f1": 1.0,
+      "support": 208
+    },
+    {
+      "class_id": 4,
+      "name": "account_closure_request",
+      "f1": 1.0,
+      "support": 199
+    },
+    {
+      "class_id": 5,
+      "name": "account_dormant_reactivation",
+      "f1": 1.0,
+      "support": 206
+    },
+    {
+      "class_id": 6,
+      "name": "account_iban_bic_swift_lookup",
+      "f1": 1.0,
+      "support": 166
+    },
+    {
+      "class_id": 7,
+      "name": "account_interest_rate_query",
+      "f1": 1.0,
+      "support": 198
+    },
+    {
+      "class_id": 8,
+      "name": "account_joint_holder_add",
+      "f1": 1.0,
+      "support": 201
+    },
+    {
+      "class_id": 9,
+      "name": "account_open_savings_pot",
+      "f1": 1.0,
+      "support": 213
+    },
+    {
+      "class_id": 10,
+      "name": "account_overdraft_apply",
+      "f1": 1.0,
+      "support": 206
+    },
+    {
+      "class_id": 11,
+      "name": "account_overdraft_fee_inquiry",
+      "f1": 1.0,
+      "support": 213
+    },
+    {
+      "class_id": 12,
+      "name": "account_statement_download_pdf",
+      "f1": 1.0,
+      "support": 185
+    },
+    {
+      "class_id": 13,
+      "name": "account_switch_service_cassy",
+      "f1": 1.0,
+      "support": 188
+    },
+    {
+      "class_id": 14,
+      "name": "account_tax_certificate_request",
+      "f1": 1.0,
+      "support": 194
+    },
+    {
+      "class_id": 15,
+      "name": "atm_cash_withdrawal_declined",
+      "f1": 1.0,
+      "support": 207
+    },
+    {
+      "class_id": 16,
+      "name": "atm_deposit_cash_not_credited",
+      "f1": 1.0,
+      "support": 187
+    },
+    {
+      "class_id": 17,
+      "name": "atm_incorrect_amount_dispensed",
+      "f1": 1.0,
+      "support": 184
+    },
+    {
+      "class_id": 18,
+      "name": "atm_locator_nearest_branch",
+      "f1": 1.0,
+      "support": 221
+    },
+    {
+      "class_id": 19,
+      "name": "atm_operator_fee_refund",
+      "f1": 1.0,
+      "support": 198
+    },
+    {
+      "class_id": 20,
+      "name": "atm_withdrawal_limit_query",
+      "f1": 1.0,
+      "support": 200
+    },
+    {
+      "class_id": 21,
+      "name": "card_activation",
+      "f1": 1.0,
+      "support": 198
+    },
+    {
+      "class_id": 22,
+      "name": "card_apple_google_pay_provisioning",
+      "f1": 1.0,
+      "support": 195
+    },
+    {
+      "class_id": 23,
+      "name": "card_atm_swallowed",
+      "f1": 1.0,
+      "support": 214
+    },
+    {
+      "class_id": 24,
+      "name": "card_cashback_rewards_query",
+      "f1": 1.0,
+      "support": 203
+    },
+    {
+      "class_id": 25,
+      "name": "card_contactless_limit_adjust",
+      "f1": 1.0,
+      "support": 192
+    },
+    {
+      "class_id": 26,
+      "name": "card_damaged_replacement",
+      "f1": 0.9975550122249389,
+      "support": 205
+    },
+    {
+      "class_id": 27,
+      "name": "card_delivery_status",
+      "f1": 1.0,
+      "support": 182
+    },
+    {
+      "class_id": 28,
+      "name": "card_expiration_renewal",
+      "f1": 0.9976359338061466,
+      "support": 211
+    },
+    {
+      "class_id": 29,
+      "name": "card_freeze_unfreeze",
+      "f1": 1.0,
+      "support": 206
+    },
+    {
+      "class_id": 30,
+      "name": "card_international_travel_notice",
+      "f1": 1.0,
+      "support": 182
+    },
+    {
+      "class_id": 31,
+      "name": "card_lost_or_stolen",
+      "f1": 0.9973333333333333,
+      "support": 187
+    },
+    {
+      "class_id": 32,
+      "name": "card_payment_declined",
+      "f1": 1.0,
+      "support": 185
+    },
+    {
+      "class_id": 33,
+      "name": "card_pin_blocked",
+      "f1": 1.0,
+      "support": 197
+    },
+    {
+      "class_id": 34,
+      "name": "card_pin_change_reset",
+      "f1": 1.0,
+      "support": 197
+    },
+    {
+      "class_id": 35,
+      "name": "card_unrecognized_charge",
+      "f1": 1.0,
+      "support": 222
+    },
+    {
+      "class_id": 36,
+      "name": "card_virtual_disposable_create",
+      "f1": 1.0,
+      "support": 190
+    },
+    {
+      "class_id": 37,
+      "name": "cash_deposit_counter_hours",
+      "f1": 1.0,
+      "support": 208
+    },
+    {
+      "class_id": 38,
+      "name": "cash_foreign_currency_order",
+      "f1": 1.0,
+      "support": 194
+    },
+    {
+      "class_id": 39,
+      "name": "check_clearance_hold_inquiry",
+      "f1": 1.0,
+      "support": 212
+    },
+    {
+      "class_id": 40,
+      "name": "check_deposit_mobile_camera",
+      "f1": 1.0,
+      "support": 192
+    },
+    {
+      "class_id": 41,
+      "name": "check_order_checkbook",
+      "f1": 1.0,
+      "support": 170
+    },
+    {
+      "class_id": 42,
+      "name": "check_stop_payment_order",
+      "f1": 1.0,
+      "support": 202
+    },
+    {
+      "class_id": 43,
+      "name": "complaint_ombudsman_referral",
+      "f1": 1.0,
+      "support": 207
+    },
+    {
+      "class_id": 44,
+      "name": "complaint_poor_service_escalation",
+      "f1": 1.0,
+      "support": 201
+    },
+    {
+      "class_id": 45,
+      "name": "credit_limit_increase_request",
+      "f1": 1.0,
+      "support": 209
+    },
+    {
+      "class_id": 46,
+      "name": "credit_score_impact_inquiry",
+      "f1": 1.0,
+      "support": 209
+    },
+    {
+      "class_id": 47,
+      "name": "crypto_network_gas_fee_query",
+      "f1": 1.0,
+      "support": 218
+    },
+    {
+      "class_id": 48,
+      "name": "crypto_purchase_supported_coins",
+      "f1": 1.0,
+      "support": 194
+    },
+    {
+      "class_id": 49,
+      "name": "crypto_wallet_withdrawal",
+      "f1": 1.0,
+      "support": 213
+    },
+    {
+      "class_id": 50,
+      "name": "debt_consolidation_query",
+      "f1": 1.0,
+      "support": 198
+    },
+    {
+      "class_id": 51,
+      "name": "fee_chargeback_status_update",
+      "f1": 0.9974160206718347,
+      "support": 194
+    },
+    {
+      "class_id": 52,
+      "name": "fee_international_transaction_charge",
+      "f1": 1.0,
+      "support": 197
+    },
+    {
+      "class_id": 53,
+      "name": "fee_late_payment_penalty_dispute",
+      "f1": 1.0,
+      "support": 195
+    },
+    {
+      "class_id": 54,
+      "name": "fee_monthly_maintenance_waiver",
+      "f1": 1.0,
+      "support": 214
+    },
+    {
+      "class_id": 55,
+      "name": "fee_wire_transfer_cost_query",
+      "f1": 1.0,
+      "support": 194
+    },
+    {
+      "class_id": 56,
+      "name": "gdpr_right_to_be_forgotten",
+      "f1": 1.0,
+      "support": 198
+    },
+    {
+      "class_id": 57,
+      "name": "gdpr_subject_access_request_export",
+      "f1": 1.0,
+      "support": 190
+    },
+    {
+      "class_id": 58,
+      "name": "invest_buy_sell_etf_stock",
+      "f1": 1.0,
+      "support": 173
+    },
+    {
+      "class_id": 59,
+      "name": "invest_capital_gains_tax_report",
+      "f1": 1.0,
+      "support": 237
+    },
+    {
+      "class_id": 60,
+      "name": "invest_dividend_reinvestment_plan",
+      "f1": 1.0,
+      "support": 206
+    },
+    {
+      "class_id": 61,
+      "name": "invest_isa_allowance_limit",
+      "f1": 1.0,
+      "support": 218
+    },
+    {
+      "class_id": 62,
+      "name": "invest_mutual_fund_fees",
+      "f1": 1.0,
+      "support": 190
+    },
+    {
+      "class_id": 63,
+      "name": "invest_portfolio_performance_summary",
+      "f1": 1.0,
+      "support": 218
+    },
+    {
+      "class_id": 64,
+      "name": "invest_robo_advisor_risk_profile",
+      "f1": 1.0,
+      "support": 220
+    },
+    {
+      "class_id": 65,
+      "name": "loan_early_payoff_quotation",
+      "f1": 1.0,
+      "support": 197
+    },
+    {
+      "class_id": 66,
+      "name": "loan_eligibility_calculator",
+      "f1": 0.9975669099756691,
+      "support": 206
+    },
+    {
+      "class_id": 67,
+      "name": "loan_interest_rate_reduction",
+      "f1": 0.9977011494252873,
+      "support": 217
+    },
+    {
+      "class_id": 68,
+      "name": "loan_payment_date_change",
+      "f1": 1.0,
+      "support": 214
+    },
+    {
+      "class_id": 69,
+      "name": "loan_payment_holiday_deferral",
+      "f1": 0.9950738916256158,
+      "support": 202
+    },
+    {
+      "class_id": 70,
+      "name": "loan_personal_application",
+      "f1": 1.0,
+      "support": 201
+    },
+    {
+      "class_id": 71,
+      "name": "mortgage_application_status",
+      "f1": 1.0,
+      "support": 208
+    },
+    {
+      "class_id": 72,
+      "name": "mortgage_fixed_rate_expiry",
+      "f1": 1.0,
+      "support": 201
+    },
+    {
+      "class_id": 73,
+      "name": "mortgage_overpayment_allowance",
+      "f1": 1.0,
+      "support": 190
+    },
+    {
+      "class_id": 74,
+      "name": "mortgage_remortgage_options",
+      "f1": 1.0,
+      "support": 177
+    },
+    {
+      "class_id": 75,
+      "name": "payment_direct_debit_cancel",
+      "f1": 1.0,
+      "support": 218
+    },
+    {
+      "class_id": 76,
+      "name": "payment_direct_debit_setup",
+      "f1": 1.0,
+      "support": 186
+    },
+    {
+      "class_id": 77,
+      "name": "payment_merchant_refund_inquiry",
+      "f1": 1.0,
+      "support": 184
+    },
+    {
+      "class_id": 78,
+      "name": "payment_standing_order_modify",
+      "f1": 1.0,
+      "support": 162
+    },
+    {
+      "class_id": 79,
+      "name": "payment_utility_bill_pay",
+      "f1": 1.0,
+      "support": 213
+    },
+    {
+      "class_id": 80,
+      "name": "pension_retirement_transfer",
+      "f1": 1.0,
+      "support": 210
+    },
+    {
+      "class_id": 81,
+      "name": "security_biometric_faceid_touchid_error",
+      "f1": 0.9978213507625272,
+      "support": 230
+    },
+    {
+      "class_id": 82,
+      "name": "security_data_breach_inquiry",
+      "f1": 1.0,
+      "support": 176
+    },
+    {
+      "class_id": 83,
+      "name": "security_device_lost_revoke_tokens",
+      "f1": 1.0,
+      "support": 228
+    },
+    {
+      "class_id": 84,
+      "name": "security_freeze_all_digital_access",
+      "f1": 1.0,
+      "support": 202
+    },
+    {
+      "class_id": 85,
+      "name": "security_identity_verification_kyc",
+      "f1": 1.0,
+      "support": 228
+    },
+    {
+      "class_id": 86,
+      "name": "security_passport_id_document_rejected",
+      "f1": 1.0,
+      "support": 200
+    },
+    {
+      "class_id": 87,
+      "name": "security_password_forgotten",
+      "f1": 0.9975669099756691,
+      "support": 205
+    },
+    {
+      "class_id": 88,
+      "name": "security_scam_call_verification",
+      "f1": 1.0,
+      "support": 208
+    },
+    {
+      "class_id": 89,
+      "name": "security_suspicious_phishing_email_report",
+      "f1": 1.0,
+      "support": 177
+    },
+    {
+      "class_id": 90,
+      "name": "security_trusted_beneficiary_cooling_period",
+      "f1": 1.0,
+      "support": 217
+    },
+    {
+      "class_id": 91,
+      "name": "security_two_factor_auth_reset",
+      "f1": 0.9973045822102425,
+      "support": 186
+    },
+    {
+      "class_id": 92,
+      "name": "security_unauthorized_transaction_alert",
+      "f1": 1.0,
+      "support": 201
+    },
+    {
+      "class_id": 93,
+      "name": "security_unknown_device_login_warning",
+      "f1": 1.0,
+      "support": 200
+    },
+    {
+      "class_id": 94,
+      "name": "security_update_security_questions",
+      "f1": 1.0,
+      "support": 185
+    },
+    {
+      "class_id": 95,
+      "name": "student_loan_refinancing",
+      "f1": 1.0,
+      "support": 201
+    },
+    {
+      "class_id": 96,
+      "name": "support_operating_hours_holidays",
+      "f1": 1.0,
+      "support": 188
+    },
+    {
+      "class_id": 97,
+      "name": "support_schedule_branch_appointment",
+      "f1": 1.0,
+      "support": 182
+    },
+    {
+      "class_id": 98,
+      "name": "support_talk_to_human_agent",
+      "f1": 1.0,
+      "support": 220
+    },
+    {
+      "class_id": 99,
+      "name": "transfer_add_new_beneficiary",
+      "f1": 1.0,
+      "support": 204
+    },
+    {
+      "class_id": 100,
+      "name": "transfer_cancel_recall",
+      "f1": 1.0,
+      "support": 213
+    },
+    {
+      "class_id": 101,
+      "name": "transfer_daily_limit_increase",
+      "f1": 1.0,
+      "support": 198
+    },
+    {
+      "class_id": 102,
+      "name": "transfer_domestic_instant",
+      "f1": 1.0,
+      "support": 187
+    },
+    {
+      "class_id": 103,
+      "name": "transfer_failed_reversal",
+      "f1": 0.9973333333333333,
+      "support": 188
+    },
+    {
+      "class_id": 104,
+      "name": "transfer_international_swift",
+      "f1": 1.0,
+      "support": 193
+    },
+    {
+      "class_id": 105,
+      "name": "transfer_pending_status",
+      "f1": 1.0,
+      "support": 210
+    },
+    {
+      "class_id": 106,
+      "name": "transfer_qr_code_pay",
+      "f1": 1.0,
+      "support": 199
+    },
+    {
+      "class_id": 107,
+      "name": "transfer_scheduled_recurring_setup",
+      "f1": 1.0,
+      "support": 196
+    },
+    {
+      "class_id": 108,
+      "name": "transfer_split_bill_request",
+      "f1": 1.0,
+      "support": 174
+    },
+    {
+      "class_id": 109,
+      "name": "wealth_private_banking_adviser",
+      "f1": 1.0,
+      "support": 204
+    }
+  ],
+  "hardest_classes": [
+    {
+      "class_id": 69,
+      "name": "loan_payment_holiday_deferral",
+      "f1": 0.9950738916256158,
+      "support": 202
+    },
+    {
+      "class_id": 91,
+      "name": "security_two_factor_auth_reset",
+      "f1": 0.9973045822102425,
+      "support": 186
+    },
+    {
+      "class_id": 31,
+      "name": "card_lost_or_stolen",
+      "f1": 0.9973333333333333,
+      "support": 187
+    },
+    {
+      "class_id": 103,
+      "name": "transfer_failed_reversal",
+      "f1": 0.9973333333333333,
+      "support": 188
+    },
+    {
+      "class_id": 51,
+      "name": "fee_chargeback_status_update",
+      "f1": 0.9974160206718347,
+      "support": 194
+    },
+    {
+      "class_id": 26,
+      "name": "card_damaged_replacement",
+      "f1": 0.9975550122249389,
+      "support": 205
+    },
+    {
+      "class_id": 66,
+      "name": "loan_eligibility_calculator",
+      "f1": 0.9975669099756691,
+      "support": 206
+    },
+    {
+      "class_id": 87,
+      "name": "security_password_forgotten",
+      "f1": 0.9975669099756691,
+      "support": 205
+    },
+    {
+      "class_id": 28,
+      "name": "card_expiration_renewal",
+      "f1": 0.9976359338061466,
+      "support": 211
+    },
+    {
+      "class_id": 67,
+      "name": "loan_interest_rate_reduction",
+      "f1": 0.9977011494252873,
+      "support": 217
+    }
+  ],
+  "best_classes": [
+    {
+      "class_id": 109,
+      "name": "wealth_private_banking_adviser",
+      "f1": 1.0,
+      "support": 204
+    },
+    {
+      "class_id": 108,
+      "name": "transfer_split_bill_request",
+      "f1": 1.0,
+      "support": 174
+    },
+    {
+      "class_id": 107,
+      "name": "transfer_scheduled_recurring_setup",
+      "f1": 1.0,
+      "support": 196
+    },
+    {
+      "class_id": 106,
+      "name": "transfer_qr_code_pay",
+      "f1": 1.0,
+      "support": 199
+    },
+    {
+      "class_id": 105,
+      "name": "transfer_pending_status",
+      "f1": 1.0,
+      "support": 210
+    },
+    {
+      "class_id": 104,
+      "name": "transfer_international_swift",
+      "f1": 1.0,
+      "support": 193
+    },
+    {
+      "class_id": 102,
+      "name": "transfer_domestic_instant",
+      "f1": 1.0,
+      "support": 187
+    },
+    {
+      "class_id": 101,
+      "name": "transfer_daily_limit_increase",
+      "f1": 1.0,
+      "support": 198
+    },
+    {
+      "class_id": 100,
+      "name": "transfer_cancel_recall",
+      "f1": 1.0,
+      "support": 213
+    },
+    {
+      "class_id": 99,
+      "name": "transfer_add_new_beneficiary",
+      "f1": 1.0,
+      "support": 204
+    }
+  ],
+  "top_confusions": [
+    {
+      "actual": "card_damaged_replacement",
+      "predicted": "card_expiration_renewal",
+      "count": 1
+    },
+    {
+      "actual": "fee_chargeback_status_update",
+      "predicted": "loan_payment_holiday_deferral",
+      "count": 1
+    },
+    {
+      "actual": "loan_eligibility_calculator",
+      "predicted": "loan_interest_rate_reduction",
+      "count": 1
+    },
+    {
+      "actual": "security_biometric_faceid_touchid_error",
+      "predicted": "security_password_forgotten",
+      "count": 1
+    },
+    {
+      "actual": "security_two_factor_auth_reset",
+      "predicted": "card_lost_or_stolen",
+      "count": 1
+    },
+    {
+      "actual": "transfer_failed_reversal",
+      "predicted": "loan_payment_holiday_deferral",
+      "count": 1
+    }
+  ],
+  "calibration_bins": [
+    {
+      "bin_range": [
+        0.0,
+        0.1
+      ],
+      "count": 2,
+      "avg_confidence": 0.09248955547809601,
+      "avg_accuracy": 0.0
+    },
+    {
+      "bin_range": [
+        0.1,
+        0.2
+      ],
+      "count": 0,
+      "avg_confidence": 0.15000000000000002,
+      "avg_accuracy": 0.0
+    },
+    {
+      "bin_range": [
+        0.2,
+        0.30000000000000004
+      ],
+      "count": 0,
+      "avg_confidence": 0.25,
+      "avg_accuracy": 0.0
+    },
+    {
+      "bin_range": [
+        0.30000000000000004,
+        0.4
+      ],
+      "count": 0,
+      "avg_confidence": 0.35000000000000003,
+      "avg_accuracy": 0.0
+    },
+    {
+      "bin_range": [
+        0.4,
+        0.5
+      ],
+      "count": 1,
+      "avg_confidence": 0.4028131365776062,
+      "avg_accuracy": 0.0
+    },
+    {
+      "bin_range": [
+        0.5,
+        0.6000000000000001
+      ],
+      "count": 2,
+      "avg_confidence": 0.5393604636192322,
+      "avg_accuracy": 0.0
+    },
+    {
+      "bin_range": [
+        0.6000000000000001,
+        0.7000000000000001
+      ],
+      "count": 0,
+      "avg_confidence": 0.6500000000000001,
+      "avg_accuracy": 0.0
+    },
+    {
+      "bin_range": [
+        0.7000000000000001,
+        0.8
+      ],
+      "count": 0,
+      "avg_confidence": 0.75,
+      "avg_accuracy": 0.0
+    },
+    {
+      "bin_range": [
+        0.8,
+        0.9
+      ],
+      "count": 0,
+      "avg_confidence": 0.8500000000000001,
+      "avg_accuracy": 0.0
+    },
+    {
+      "bin_range": [
+        0.9,
+        1.0
+      ],
+      "count": 21995,
+      "avg_confidence": 0.9606804251670837,
+      "avg_accuracy": 0.9999545351216186
+    }
+  ]
+}
