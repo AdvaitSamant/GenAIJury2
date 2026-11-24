@@ -257,6 +257,12 @@ class GenAIJuryPipeline:
                 f"To resolve this, please follow our certified banking guidance and action steps below."
             )
 
+        if not hasattr(self, "llm_manager") or self.llm_manager is None:
+            from hybrid_llm import HybridLLMManager
+            self.llm_manager = HybridLLMManager(prefer_local=True)
+            self.llm_manager.initialize()
+            self.llm = self.llm_manager.local_engine
+
         gen_result = self.llm_manager.generate_response(
             user_message=user_message,
             intent=detected_intent,

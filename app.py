@@ -39,13 +39,25 @@ else:
     st.markdown(get_global_styles(), unsafe_allow_html=True)
 
 
-@st.cache_resource(show_spinner="Loading intent classifier, algorithms, and local Qwen model...")
-def get_pipeline():
-    """Initializes and caches the end-to-end pipeline in GPU memory."""
-    return GenAIJuryPipeline(load_llm=True)
+@st.cache_resource(show_spinner="Loading intent classifier, algorithms, and hybrid LLM engine...")
+def get_pipeline(cache_version: str = "v2.2_hybrid_openrouter"):
+    """Initializes and caches the end-to-end pipeline in GPU/Cloud memory."""
+    pipe = GenAIJuryPipeline(load_llm=True)
+    if not hasattr(pipe, "llm_manager") or pipe.llm_manager is None:
+        from hybrid_llm import HybridLLMManager
+        pipe.llm_manager = HybridLLMManager(prefer_local=True)
+        pipe.llm_manager.initialize()
+        pipe.llm = pipe.llm_manager.local_engine
+    return pipe
 
 
 pipeline = get_pipeline()
+if not hasattr(pipeline, "llm_manager") or pipeline.llm_manager is None:
+    from hybrid_llm import HybridLLMManager
+    pipeline.llm_manager = HybridLLMManager(prefer_local=True)
+    pipeline.llm_manager.initialize()
+    pipeline.llm = pipeline.llm_manager.local_engine
+
 
 # --- Sidebar: Hardware definition list & Algorithm controls ---
 with st.sidebar:
