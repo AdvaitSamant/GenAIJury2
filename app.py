@@ -549,18 +549,12 @@ with tab_chat:
                         unsafe_allow_html=True,
                     )
 
-            badge_class = (
-                "badge-success"
-                if status == "SINGLE_INTENT"
-                else ("badge-warning" if status == "AMBIGUOUS" else "badge-error")
-            )
             st.markdown(
                 f"""
                 <div class="diag-panel-block">
                   <div class="section-eyebrow">Detected Intent</div>
                   <div class="intent-row">
                     <code class="intent-code-chip">{diag['detected_intent']}</code>
-                    <span class="badge-status {badge_class}">{status}</span>
                   </div>
                   <div class="section-eyebrow" style="margin-top:14px">Calibrated Confidence</div>
                   <div class="confidence-serif-val">{conf:.1%}</div>
