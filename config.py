@@ -115,14 +115,40 @@ ENFORCE_ACTION_VERIFICATION = True # Ensure required safety steps are present
 # ---------------------------------------------------------
 # When local GPU is unavailable (Streamlit Cloud, CPU instance, or load failure),
 # the engine seamlessly falls back to OpenRouter API with reasoning enabled.
-OPENROUTER_API_KEY = os.environ.get(
-    "OPENROUTER_API_KEY",
-    "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",
-)
-OPENROUTER_MODEL = os.environ.get(
-    "OPENROUTER_MODEL",
-    "nvidia/nemotron-3.5-super-vl:free",
-)
+# The API key is loaded strictly from secrets.toml (or Streamlit secrets/env) to avoid hardcoding.
+def _load_secret(key: str, default: str = "") -> str:
+    # 1. Direct secrets.toml files (.streamlit/secrets.toml or root secrets.toml)
+    for p in [BASE_DIR / ".streamlit" / "secrets.toml", BASE_DIR / "secrets.toml"]:
+        if p.exists():
+            try:
+                import tomllib
+                with open(p, "rb") as f:
+                    toml_data = tomllib.load(f)
+                    if key in toml_data and toml_data[key]:
+                        return str(toml_data[key]).strip()
+            except Exception:
+                pass
+
+    # 2. Streamlit secrets context if running inside Streamlit
+    try:
+        import streamlit as st
+        if hasattr(st, "secrets") and key in st.secrets:
+            return str(st.secrets[key]).strip()
+    except Exception:
+        pass
+
+    # 3. Environment variable
+    env_val = os.environ.get(key)
+    if env_val:
+        return env_val.strip()
+
+    return default
+
+
+OPENROUTER_API_KEY = _load_secret("OPENROUTER_API_KEY", default="")
+OPENROUTER_MODEL = _load_secret("OPENROUTER_MODEL", default="nvidia/nemotron-3.5-super-vl:free")
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 OPENROUTER_ENABLE_REASONING = True
+
+
 

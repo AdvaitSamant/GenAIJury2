@@ -86,7 +86,11 @@ htmlcov/
 .env
 .env.*
 !.env.example
+secrets.toml
+*/secrets.toml
 .streamlit/secrets.toml
+*.secrets.toml
+
 
 # Streamlit temporary runtime caches & uploads
 .streamlit/cache/

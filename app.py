@@ -134,7 +134,11 @@ with st.sidebar:
     with st.expander("Cloud API Status & Config", expanded=False):
         st.caption("Configured Fallback Model: `nvidia/nemotron-3.5-super-vl:free`")
         api_avail = pipeline.llm_manager.api_engine.is_available()
-        key_status = "Configured (sk-or-v1...cf0c)" if api_avail else "Not configured"
+        key_status = (
+            f"Configured in secrets.toml ({pipeline.llm_manager.api_engine.api_key[:6]}...{pipeline.llm_manager.api_engine.api_key[-4:]})"
+            if api_avail and len(pipeline.llm_manager.api_engine.api_key) > 10
+            else ("Configured in secrets.toml" if api_avail else "Not configured in secrets.toml")
+        )
         st.markdown(f"<div style='font-size:12px;color:var(--text-secondary);margin-bottom:8px'>API Key: <strong>{key_status}</strong></div>", unsafe_allow_html=True)
         if st.button("Test API Connection", key="btn_test_openrouter", use_container_width=True):
             with st.spinner("Connecting to OpenRouter..."):
