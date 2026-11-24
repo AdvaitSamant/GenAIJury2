@@ -144,21 +144,77 @@ with st.sidebar:
     )
 
     with st.expander("Cloud API Status & Config", expanded=False):
-        st.caption("Configured Fallback Model: `nvidia/nemotron-3.5-super-vl:free`")
-        api_avail = pipeline.llm_manager.api_engine.is_available()
-        key_status = (
-            f"Configured in secrets.toml ({pipeline.llm_manager.api_engine.api_key[:6]}...{pipeline.llm_manager.api_engine.api_key[-4:]})"
-            if api_avail and len(pipeline.llm_manager.api_engine.api_key) > 10
-            else ("Configured in secrets.toml" if api_avail else "Not configured in secrets.toml")
+        st.caption("Fallback Model: `nvidia/nemotron-3.5-super-vl:free`")
+        current_effective_key = pipeline.llm_manager.api_engine.get_effective_key()
+        api_avail = bool(current_effective_key and len(current_effective_key) > 10)
+
+        # Allow user to input / update key directly in the UI
+        custom_key_val = st.text_input(
+            "OpenRouter API Key",
+            value=st.session_state.get("custom_api_key", ""),
+            type="password",
+            placeholder="sk-or-v1-...",
+            help="Enter a valid OpenRouter key from openrouter.ai/keys.",
+            key="custom_api_key_input",
         )
-        st.markdown(f"<div style='font-size:12px;color:var(--text-secondary);margin-bottom:8px'>API Key: <strong>{key_status}</strong></div>", unsafe_allow_html=True)
-        if st.button("Test API Connection", key="btn_test_openrouter", use_container_width=True):
+
+        col_k1, col_k2 = st.columns([1, 1])
+        if col_k1.button("Connect Key", key="btn_save_key", use_container_width=True):
+            if custom_key_val and len(custom_key_val.strip()) > 10:
+                st.session_state["custom_api_key"] = custom_key_val.strip()
+                pipeline.llm_manager.api_engine.api_key = custom_key_val.strip()
+                pipeline.llm_manager.api_error = None
+                with st.spinner("Connecting..."):
+                    ok, test_msg = pipeline.llm_manager.api_engine.test_connection()
+                if ok:
+                    st.success("Connected!")
+                    st.rerun()
+                else:
+                    st.error(test_msg)
+            else:
+                st.warning("Enter key first")
+
+        if col_k2.button("Test Connection", key="btn_test_openrouter", use_container_width=True):
             with st.spinner("Connecting to OpenRouter..."):
                 ok, test_msg = pipeline.llm_manager.api_engine.test_connection()
             if ok:
                 st.success(test_msg)
             else:
                 st.error(test_msg)
+
+        if api_avail:
+            masked = current_effective_key[:6] + "..." + current_effective_key[-4:]
+            st.markdown(
+                f"<div style='font-size:12px;color:var(--text-secondary);margin-top:6px;'>Key: <strong>{masked}</strong></div>",
+                unsafe_allow_html=True,
+            )
+        else:
+            st.markdown(
+                "<div style='font-size:12px;color:var(--text-muted);margin-top:6px;'>No key currently configured.</div>",
+                unsafe_allow_html=True,
+            )
+
+        if pipeline.llm_manager.api_error and "401" in pipeline.llm_manager.api_error:
+            st.markdown(
+                """
+                <div style="font-size:11px;color:var(--error);background:var(--error-tint);padding:8px 10px;border-radius:4px;margin-top:8px;line-height:1.4;">
+                  <strong>Key Revoked / Expired (HTTP 401)</strong><br/>
+                  OpenRouter returned <em>'User not found'</em>. The provided key was revoked or deleted. Please generate a new free key at <a href="https://openrouter.ai/keys" target="_blank" style="color:var(--accent);text-decoration:underline;">openrouter.ai/keys</a> and paste it above.
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+        elif not api_avail:
+            st.markdown(
+                """
+                <div style="font-size:11px;color:var(--text-secondary);background:var(--bg-card-subtle);padding:8px 10px;border-radius:4px;margin-top:8px;line-height:1.4;">
+                  Get a free API key at <a href="https://openrouter.ai/keys" target="_blank" style="color:var(--accent);text-decoration:underline;">openrouter.ai/keys</a> to enable Nemotron-3.5 on Cloud.
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+
 
     st.markdown("<hr style='border:none; border-top:1px solid var(--border-color); margin:20px 0;'>", unsafe_allow_html=True)
 

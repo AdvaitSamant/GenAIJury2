@@ -156,6 +156,13 @@ class HybridLLMManager:
             f"I understand your query regarding **{intent.replace('_', ' ').title()}**. "
             f"Please follow the certified institutional guidance and actions provided below."
         )
+        if self.api_error:
+            fallback_msg = f"Cloud API error: {self.api_error}. Falling back to certified policy engine."
+        elif not self.api_engine.is_available():
+            fallback_msg = "OpenRouter API key is missing. Please configure it in Streamlit Secrets or sidebar."
+        else:
+            fallback_msg = "Both Local GPU and OpenRouter API unavailable. Certified policy engine invoked."
+
         return {
             "reply": reply,
             "engine_type": "policy",
@@ -165,7 +172,7 @@ class HybridLLMManager:
             "tokens_per_second": 0.0,
             "tokens_generated": len(reply.split()),
             "is_fallback": True,
-            "fallback_reason": "Both Local GPU and OpenRouter API unavailable. Policy fallback invoked.",
+            "fallback_reason": fallback_msg,
             "reasoning_details": None,
         }
 

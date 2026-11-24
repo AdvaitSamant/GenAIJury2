@@ -32,22 +32,53 @@ class OpenRouterEngine:
         api_url: str = OPENROUTER_API_URL,
         enable_reasoning: bool = OPENROUTER_ENABLE_REASONING,
     ):
-        self.api_key = api_key or os.environ.get("OPENROUTER_API_KEY") or OPENROUTER_API_KEY
+        self.api_key = api_key or ""
         self.model = model
         self.api_url = api_url
         self.enable_reasoning = enable_reasoning
 
+    def get_effective_key(self) -> str:
+        """Dynamically retrieves API key from instance, session_state, Streamlit secrets, env, or config."""
+        if self.api_key and len(self.api_key.strip()) > 10:
+            return self.api_key.strip()
+
+        # 1. Check Streamlit session state (if user entered it in UI)
+        try:
+            import streamlit as st
+            if "custom_api_key" in st.session_state and st.session_state["custom_api_key"]:
+                k = str(st.session_state["custom_api_key"]).strip()
+                if len(k) > 10:
+                    return k
+        except Exception:
+            pass
+
+        # 2. Check config.py loader (which checks secrets.toml, st.secrets, env, and fallback)
+        try:
+            from config import OPENROUTER_API_KEY
+            if OPENROUTER_API_KEY and len(OPENROUTER_API_KEY.strip()) > 10:
+                return OPENROUTER_API_KEY.strip()
+        except Exception:
+            pass
+
+        # 3. Environment variable fallback
+        env_val = os.environ.get("OPENROUTER_API_KEY")
+        if env_val and len(env_val.strip()) > 10:
+            return env_val.strip()
+
+        return ""
+
     def is_available(self) -> bool:
         """Checks if a valid API key is present."""
-        return bool(self.api_key and len(self.api_key.strip()) > 10)
+        return len(self.get_effective_key()) > 10
 
     def test_connection(self) -> Tuple[bool, str]:
         """Performs a lightweight test to verify API key validity and network access."""
-        if not self.is_available():
+        effective_key = self.get_effective_key()
+        if not effective_key:
             return False, "OpenRouter API key is missing or empty."
 
         headers = {
-            "Authorization": f"Bearer {self.api_key.strip()}",
+            "Authorization": f"Bearer {effective_key}",
             "Content-Type": "application/json",
         }
         data = {
@@ -137,8 +168,14 @@ class OpenRouterEngine:
         # Append current user query
         messages.append({"role": "user", "content": user_message})
 
+        effective_key = self.get_effective_key()
+        if not effective_key:
+            raise ValueError(
+                "OpenRouter API key is not configured. Provide it in secrets.toml, Streamlit Secrets, or enter it in the sidebar."
+            )
+
         headers = {
-            "Authorization": f"Bearer {self.api_key.strip()}",
+            "Authorization": f"Bearer {effective_key}",
             "Content-Type": "application/json",
         }
 
