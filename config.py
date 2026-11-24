@@ -109,3 +109,20 @@ TOP_K_RECOMMENDATIONS = 3
 GROUNDEDNESS_THRESHOLD = 0.70 # Minimum semantic groundedness score
 ENFORCE_PCI_DSS = True        # Scrub card numbers, CVVs, PINs
 ENFORCE_ACTION_VERIFICATION = True # Ensure required safety steps are present
+
+# ---------------------------------------------------------
+# 5. OpenRouter Cloud LLM Fallback (Nemotron-3.5)
+# ---------------------------------------------------------
+# When local GPU is unavailable (Streamlit Cloud, CPU instance, or load failure),
+# the engine seamlessly falls back to OpenRouter API with reasoning enabled.
+OPENROUTER_API_KEY = os.environ.get(
+    "OPENROUTER_API_KEY",
+    "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",
+)
+OPENROUTER_MODEL = os.environ.get(
+    "OPENROUTER_MODEL",
+    "nvidia/nemotron-3.5-super-vl:free",
+)
+OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
+OPENROUTER_ENABLE_REASONING = True
+

@@ -45,9 +45,70 @@ def get_pipeline():
     return GenAIJuryPipeline(load_llm=True)
 
 
+pipeline = get_pipeline()
+
 # --- Sidebar: Hardware definition list & Algorithm controls ---
 with st.sidebar:
-    st.markdown('<div class="section-eyebrow">Hardware & Model</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-eyebrow">Hardware & LLM Engine</div>', unsafe_allow_html=True)
+
+    # Engine selection mode control
+    engine_mode_options = [
+        "Auto (Local GPU -> API Fallback)",
+        "Force OpenRouter API (Nemotron 3.5)",
+        "Local GPU Only",
+    ]
+    if "engine_mode_choice" not in st.session_state:
+        st.session_state["engine_mode_choice"] = engine_mode_options[0]
+
+    selected_engine_mode = st.selectbox(
+        "LLM Inference Mode",
+        engine_mode_options,
+        index=engine_mode_options.index(st.session_state.engine_mode_choice)
+        if st.session_state.engine_mode_choice in engine_mode_options
+        else 0,
+        key="engine_mode_choice",
+        help="Auto uses local RTX 4050 GPU first, falling back to OpenRouter API (Nemotron-3.5) on cloud or if local model fails.",
+    )
+    mode_map = {
+        "Auto (Local GPU -> API Fallback)": "auto",
+        "Force OpenRouter API (Nemotron 3.5)": "api_only",
+        "Local GPU Only": "local_only",
+    }
+    pipeline.llm_manager.set_mode(mode_map[selected_engine_mode])
+    engine_status = pipeline.llm_manager.get_status()
+
+    # Active LLM Engine status indicator
+    if engine_status["active_type"] == "local":
+        badge_class = "badge-engine-local"
+        dot_class = "dot-local"
+        badge_label = "Local GPU"
+        desc_text = f"Qwen 1.5-4B loaded on {GPU_NAME} (Zero API latency)"
+    elif engine_status["active_type"] == "api":
+        badge_class = "badge-engine-api"
+        dot_class = "dot-api"
+        badge_label = "OpenRouter API"
+        desc_text = "nvidia/nemotron-3.5-super-vl:free with reasoning enabled"
+    else:
+        badge_class = "badge-engine-policy"
+        dot_class = "dot-policy"
+        badge_label = "Policy Fallback"
+        desc_text = "Deterministic certified banking guidelines"
+
+    st.markdown(
+        f"""
+        <div class="engine-status-box">
+          <div class="engine-header-row">
+            <span class="engine-status-title">Active Engine</span>
+            <span class="badge-engine {badge_class}">
+              <span class="clay-dot {dot_class}"></span>{badge_label}
+            </span>
+          </div>
+          <p class="engine-status-desc">{desc_text}</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
     allocated = (
         torch.cuda.memory_allocated() / (1024 ** 3)
         if torch.cuda.is_available()
@@ -60,8 +121,8 @@ with st.sidebar:
         f"""
         <div class="hw-spec-list">
           <div class="hw-spec-row"><span class="hw-label">GPU</span><span class="hw-val">{GPU_NAME}</span></div>
-          <div class="hw-spec-row"><span class="hw-label">Model</span><span class="hw-val">Qwen 4B</span></div>
-          <div class="hw-spec-row"><span class="hw-label">Precision</span><span class="hw-val">FP16={USE_FP16}</span></div>
+          <div class="hw-spec-row"><span class="hw-label">Primary</span><span class="hw-val">Qwen 4B / FP16</span></div>
+          <div class="hw-spec-row"><span class="hw-label">Fallback</span><span class="hw-val">Nemotron 3.5</span></div>
           <div class="vram-stat-row"><span class="hw-label">VRAM</span><span class="vram-stat-val">{allocated:.2f} GB of {TOTAL_VRAM_GB:.1f} GB</span></div>
           <div class="vram-bar-track"><div class="vram-bar-fill" style="width:{usage_pct:.1f}%"></div></div>
           <div class="hw-spec-row"><span class="hw-label">Available</span><span class="hw-val">{available_vram:.2f} GB</span></div>
@@ -69,6 +130,19 @@ with st.sidebar:
         """,
         unsafe_allow_html=True,
     )
+
+    with st.expander("Cloud API Status & Config", expanded=False):
+        st.caption("Configured Fallback Model: `nvidia/nemotron-3.5-super-vl:free`")
+        api_avail = pipeline.llm_manager.api_engine.is_available()
+        key_status = "Configured (sk-or-v1...cf0c)" if api_avail else "Not configured"
+        st.markdown(f"<div style='font-size:12px;color:var(--text-secondary);margin-bottom:8px'>API Key: <strong>{key_status}</strong></div>", unsafe_allow_html=True)
+        if st.button("Test API Connection", key="btn_test_openrouter", use_container_width=True):
+            with st.spinner("Connecting to OpenRouter..."):
+                ok, test_msg = pipeline.llm_manager.api_engine.test_connection()
+            if ok:
+                st.success(test_msg)
+            else:
+                st.error(test_msg)
 
     st.markdown("<hr style='border:none; border-top:1px solid var(--border-color); margin:20px 0;'>", unsafe_allow_html=True)
 
@@ -136,18 +210,22 @@ with st.sidebar:
     )
 
 
-# --- Editorial plain header ---
+# --- Editorial plain header with dynamic model pill ---
+if engine_status["active_type"] == "local":
+    header_pill_html = '<div class="header-model-pill"><span class="clay-dot dot-local"></span><span>Local Qwen 4B · GPU</span></div>'
+elif engine_status["active_type"] == "api":
+    header_pill_html = '<div class="header-model-pill"><span class="clay-dot dot-api"></span><span>OpenRouter · Nemotron 3.5 (Cloud)</span></div>'
+else:
+    header_pill_html = '<div class="header-model-pill"><span class="clay-dot dot-policy"></span><span>Policy Safety Net</span></div>'
+
 st.markdown(
-    """
+    f"""
     <header class="plain-header">
       <div>
         <h1 class="header-title">Autonomous Customer Intelligence Engine</h1>
         <p class="header-subtitle">Enterprise intent classification, calibrated routing, and grounded customer assistance.</p>
       </div>
-      <div class="header-model-pill">
-        <span class="clay-dot"></span>
-        <span>Qwen 4B · FP16</span>
-      </div>
+      {header_pill_html}
     </header>
     """,
     unsafe_allow_html=True,
@@ -162,9 +240,9 @@ tab_chat, tab_analytics, tab_dataset, tab_algorithms = st.tabs([
     "Algorithm Architecture",
 ])
 
-pipeline = get_pipeline()
 pipeline.router.alpha = alpha_val
 pipeline.recommender.mmr_lambda = mmr_lambda
+
 
 
 def parse_inline_markdown(text: str) -> str:
@@ -280,14 +358,24 @@ with tab_chat:
             st.session_state.messages.append({"role": "user", "content": user_input, "diagnostics": None})
             render_chat_message({"role": "user", "content": user_input})
 
+            # Format previous history turns for OpenRouter reasoning continuity
+            chat_history_payload = []
+            for m in st.session_state.messages[:-1]:
+                history_entry = {"role": m["role"], "content": m["content"]}
+                if m.get("reasoning_details"):
+                    history_entry["reasoning_details"] = m["reasoning_details"]
+                chat_history_payload.append(history_entry)
+
             with st.spinner("Classifying intent, applying conformal routing and generating response..."):
-                result = pipeline.process_message(user_input)
+                result = pipeline.process_message(user_input, chat_history=chat_history_payload)
 
             reply = result["final_reply"]
+            reasoning_det = result.get("llm_metrics", {}).get("reasoning_details")
             st.session_state.messages.append({
                 "role": "assistant",
                 "content": reply,
                 "diagnostics": result,
+                "reasoning_details": reasoning_det,
             })
             render_chat_message({"role": "assistant", "content": reply})
             st.rerun()
@@ -302,6 +390,65 @@ with tab_chat:
             c_route = diag["conformal_routing"]
             conf = diag["calibrated_confidence"]
             status = c_route["routing_status"]
+            llm_m = diag.get("llm_metrics", {})
+            eng_type = llm_m.get("engine_type", "local")
+            is_fallback = llm_m.get("is_fallback", False)
+            model_name = llm_m.get("model_used", "Qwen")
+            gen_time = llm_m.get("generation_time_sec", 0.0)
+            tok_speed = llm_m.get("tokens_per_second", 0.0)
+            reasoning = llm_m.get("reasoning_details")
+            fallback_reason = llm_m.get("fallback_reason")
+
+            if eng_type == "local":
+                engine_badge = '<span class="badge-engine badge-engine-local"><span class="clay-dot dot-local"></span>Local GPU Inference</span>'
+            elif eng_type == "api":
+                fallback_label = " (Fallback)" if is_fallback else ""
+                engine_badge = f'<span class="badge-engine badge-engine-api"><span class="clay-dot dot-api"></span>OpenRouter API{fallback_label}</span>'
+            else:
+                engine_badge = '<span class="badge-engine badge-engine-policy"><span class="clay-dot dot-policy"></span>Policy Engine</span>'
+
+            # 1. LLM Engine Diagnostics Card
+            fallback_notice_html = (
+                f'<div style="font-size:11px;color:var(--accent);margin-top:5px;font-style:italic;">{fallback_reason}</div>'
+                if fallback_reason
+                else ""
+            )
+            st.markdown(
+                f"""
+                <div class="diag-panel-block" style="margin-bottom:14px">
+                  <div class="section-eyebrow">LLM Generation Engine</div>
+                  <div class="intent-row" style="margin-top:4px">
+                    <code class="intent-code-chip">{model_name}</code>
+                    {engine_badge}
+                  </div>
+                  <div style="font-size:12px;color:var(--text-secondary);margin-top:6px">
+                    Latency: <strong>{gen_time}s</strong> · Speed: <strong>{tok_speed} tok/s</strong>
+                  </div>
+                  {fallback_notice_html}
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+            # Optional Reasoning Trace Drawer (for OpenRouter Nemotron CoT)
+            if reasoning:
+                reasoning_text = ""
+                if isinstance(reasoning, list):
+                    for item in reasoning:
+                        if isinstance(item, dict) and "text" in item:
+                            reasoning_text += item["text"] + "\n"
+                        else:
+                            reasoning_text += str(item) + "\n"
+                elif isinstance(reasoning, dict):
+                    reasoning_text = reasoning.get("text", str(reasoning))
+                else:
+                    reasoning_text = str(reasoning)
+
+                with st.expander("🧠 Nemotron Step-by-Step Reasoning Trace", expanded=False):
+                    st.markdown(
+                        f'<div class="reasoning-trace-box">{reasoning_text.strip()}</div>',
+                        unsafe_allow_html=True,
+                    )
 
             badge_class = (
                 "badge-success"
@@ -385,8 +532,9 @@ with tab_chat:
                 for violation in gr["violations"]:
                     st.caption(f"• {violation}")
 
+            eng_display = llm_m.get("engine_name", "LLM Engine")
             st.caption(
-                f"Qwen GPU latency: {diag['llm_metrics']['generation_time_sec']}s "
+                f"{eng_display} · Latency: {diag['llm_metrics']['generation_time_sec']}s "
                 f"({diag['llm_metrics']['tokens_per_second']} tokens/s)"
             )
         else:

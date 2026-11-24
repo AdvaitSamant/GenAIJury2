@@ -6,9 +6,11 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
-# C extensions
 *.so
+
+# C extensions & dynamic libs
+*.dylib
+*.dll
 
 # Distribution / packaging
 .Python
@@ -37,12 +39,13 @@ ENV/
 env/
 env.bak/
 venv.bak/
+*.venv/
 
-# Jupyter Notebook Checkpoints
+# Jupyter Notebook & Lab Checkpoints
 .ipynb_checkpoints/
 */.ipynb_checkpoints/*
 
-# Model Checkpoints & Large Weights (>100MB GitHub limit)
+# Model Checkpoints, TensorRT & Large Weights (>100MB GitHub limit)
 intent-classifier-checkpoints/
 models/
 checkpoints/
@@ -51,11 +54,33 @@ checkpoints/
 *.pt
 *.pth
 *.onnx
+*.engine
+*.plan
+
+# Hugging Face & PyTorch Caches
+.cache/
+hf_cache/
+transformers_cache/
+torch_cache/
 
 # ML Experiment Tracking
 wandb/
 runs/
 mlruns/
+lightning_logs/
+
+# Testing & Code Quality
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.pytype/
 
 # Environment Variables & Secrets
 .env
@@ -63,8 +88,9 @@ mlruns/
 !.env.example
 .streamlit/secrets.toml
 
-# Streamlit temporary runtime caches
+# Streamlit temporary runtime caches & uploads
 .streamlit/cache/
+.streamlit/upload/
 
 # OS-specific files
 .DS_Store
@@ -82,10 +108,20 @@ desktop.ini
 *.swp
 *.swo
 *~
+*.code-workspace
 
-# Logs & Temporary files
+# Archives & compressed formats
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+
+# Logs, Backups & Temporary files
 *.log
 *.tmp
+*.bak
 scratch/
 tmp/
 temp/

@@ -177,10 +177,12 @@ flowchart TD
 - **Compulsory Action Auditing**: Enforces strict domain policies. For instance, if intent is `card_lost_or_stolen`, the regex `(freeze|block|lock|deactivate)` must be present. If absent, the guardrail patches the reply with the certified banking template.
 - **PII Masking**: Automatically redacts card numbers to `[REDACTED_CARD_XXXXXXXX]`, CVVs to `[REDACTED_CVV]`, and expirations to `[REDACTED_EXP]`.
 
-### 4.6 `local_llm.py` — Local Qwen 4B GPU Inference Engine
-- **Zero Cloud API Reliance**: Loads `Qwen/Qwen1.5-4B-Chat` (or local Qwen snapshot) directly into VRAM with FP16 precision.
-- **Latency & Speed**: Generates tokens at **28–38 tokens/second** on the RTX 4050 GPU with zero external network roundtrips.
-- **Mock Fallback**: Includes a robust mock fallback for development or lower-spec machines that dynamically renders intent-grounded replies.
+### 4.6 `local_llm.py`, `openrouter_llm.py` & `hybrid_llm.py` — Hybrid LLM Engine (Local GPU Primary + OpenRouter Fallback)
+- **Primary Tier (Zero Cloud API Reliance)**: Loads `Qwen/Qwen1.5-4B-Chat` (or local Qwen snapshot) directly into VRAM on the RTX 4050 Laptop GPU with FP16 precision, generating tokens at **28–45 tokens/second** with zero external network roundtrips.
+- **Fallback Tier (OpenRouter Cloud API with Reasoning)**: When deployed on CPU or Streamlit Cloud environments where CUDA is unavailable, or if local weights fail to load, the engine automatically falls back to OpenRouter API utilizing `nvidia/nemotron-3.5-super-vl:free` with chain-of-thought reasoning enabled (`reasoning: {"enabled": True}`). Reasoning details (`reasoning_details`) are preserved across dialogue turns for multi-turn conversational reasoning continuity.
+- **Safety Net Tier**: Deterministic, certified banking policy templates that guarantee uninterrupted service even during total internet/API disconnection.
+- **Dynamic UI Indication**: The Streamlit interface displays real-time status pills and diagnostics indicating whether local GPU inference or OpenRouter cloud API fallback is currently serving the user.
+
 
 ### 4.7 `main.py` — Unified Closed-Loop Pipeline
 - Combines all components into a single executable object `GenAIJuryPipeline`.

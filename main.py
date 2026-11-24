@@ -33,6 +33,8 @@ from algorithms.conformal_router import ConformalRouter
 from algorithms.contextual_recommender import ContextualRecommender
 from algorithms.grounded_guardrail import GroundedGuardrail
 from local_llm import LocalQwenEngine
+from hybrid_llm import HybridLLMManager
+
 
 
 class GenAIJuryPipeline:
@@ -93,20 +95,15 @@ class GenAIJuryPipeline:
         print("[Pipeline] Initializing Algorithm 3: Grounded Factuality & Compliance Guardrail...")
         self.guardrail = GroundedGuardrail(groundedness_threshold=GROUNDEDNESS_THRESHOLD)
 
-        # 5. Initialize Local Qwen GPU Engine
-        self.llm = None
-        if load_llm and torch.cuda.is_available():
-            print("[Pipeline] Initializing Local Qwen LLM on RTX 4050 GPU...")
-            self.llm = LocalQwenEngine()
-            try:
-                self.llm.load_model()
-            except Exception as e:
-                print(f"[Pipeline] Warning: Local Qwen deferred or error: {e}")
-        elif load_llm:
-            print("[Pipeline] CPU host detected (Streamlit Cloud). Using verified policy response generation.")
+        # 5. Initialize Hybrid LLM Engine (Local GPU Primary + OpenRouter Cloud Fallback)
+        print("[Pipeline] Initializing Hybrid LLM Engine (Local Qwen GPU + OpenRouter Nemotron-3.5 Fallback)...")
+        self.llm_manager = HybridLLMManager(prefer_local=True)
+        if load_llm:
+            self.llm_manager.initialize()
+        self.llm = self.llm_manager.local_engine
 
         print("=" * 70)
-        print("All 3 Algorithms, Classifier, and Local LLM Engine Successfully Online!")
+        print("All 3 Algorithms, Classifier, and Hybrid LLM Engine Successfully Online!")
         print("=" * 70 + "\n")
 
     def _init_cloud_classifier(self):
@@ -211,13 +208,14 @@ class GenAIJuryPipeline:
         self,
         user_message: str,
         top_k_rec: int = TOP_K_RECOMMENDATIONS,
+        chat_history: Optional[List[Dict[str, Any]]] = None,
     ) -> Dict[str, Any]:
         """
         Processes a customer message through the complete 5-stage pipeline:
         1. Model Logits Extraction
         2. Algorithm 1: Conformal Routing (Coverage guaranteed prediction set)
         3. Algorithm 2: Multi-Objective MMR Recommendation
-        4. Local Qwen 4B GPU Text Generation
+        4. Hybrid LLM Generation (Local GPU primary -> OpenRouter API fallback)
         5. Algorithm 3: Grounded Factuality & Compliance Audit
         """
         # Stage 1: Feature Extraction & Classifier Logits
@@ -250,32 +248,36 @@ class GenAIJuryPipeline:
             top_k=top_k_rec,
         )
 
-        # Stage 4: Local Qwen Generation
-        if self.llm and self.llm.is_loaded:
-            gen_result = self.llm.generate_response(
-                user_message=user_message,
-                intent=detected_intent,
-                confidence=confidence,
-                recommendations=recommendations,
-                prediction_set=prediction_set,
+        # Stage 4: Hybrid LLM Generation (Local GPU primary -> OpenRouter API fallback -> Policy)
+        policy_template = self.guardrail.intent_policy_registry.get(detected_intent, {}).get("template")
+        if not policy_template:
+            intent_clean = detected_intent.replace("_", " ").title()
+            policy_template = (
+                f"I understand your query regarding **{intent_clean}**. "
+                f"To resolve this, please follow our certified banking guidance and action steps below."
             )
-            raw_reply = gen_result["reply"]
-            llm_metrics = {
-                "generation_time_sec": gen_result["generation_time_sec"],
-                "tokens_per_second": gen_result["tokens_per_second"],
-                "model_used": gen_result["model_used"],
-            }
-        else:
-            policy_template = self.guardrail.intent_policy_registry.get(detected_intent, {}).get("template")
-            if policy_template:
-                raw_reply = policy_template
-            else:
-                intent_clean = detected_intent.replace("_", " ").title()
-                raw_reply = (
-                    f"I understand your query regarding **{intent_clean}**. "
-                    f"To resolve this, please follow our certified banking guidance and action steps below."
-                )
-            llm_metrics = {"generation_time_sec": 0.02, "tokens_per_second": 0.0, "model_used": "cloud_policy_engine"}
+
+        gen_result = self.llm_manager.generate_response(
+            user_message=user_message,
+            intent=detected_intent,
+            confidence=confidence,
+            recommendations=recommendations,
+            prediction_set=prediction_set,
+            chat_history=chat_history,
+            policy_fallback_text=policy_template,
+        )
+        raw_reply = gen_result["reply"]
+        llm_metrics = {
+            "generation_time_sec": gen_result["generation_time_sec"],
+            "tokens_per_second": gen_result["tokens_per_second"],
+            "tokens_generated": gen_result.get("tokens_generated", 0),
+            "model_used": gen_result["model_used"],
+            "engine_type": gen_result["engine_type"],
+            "engine_name": gen_result["engine_name"],
+            "is_fallback": gen_result.get("is_fallback", False),
+            "fallback_reason": gen_result.get("fallback_reason"),
+            "reasoning_details": gen_result.get("reasoning_details"),
+        }
 
         # Stage 5: Algorithm 3 - Grounded Guardrail & Safety Audit
         guardrail_report = self.guardrail.verify_and_remediate(

@@ -341,6 +341,81 @@ div[data-baseweb="toggle"] [aria-checked="true"] {
   background-color: var(--accent);
   display: inline-block;
 }
+.dot-local {
+  background-color: var(--success) !important;
+}
+.dot-api {
+  background-color: var(--accent) !important;
+}
+.dot-policy {
+  background-color: var(--text-muted) !important;
+}
+
+/* 5b. LLM Engine Status Indicator & Fallback Badges */
+.engine-status-box {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin: 8px 0 14px 0;
+}
+.engine-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.engine-status-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.engine-status-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin: 0;
+}
+.badge-engine {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.badge-engine-local {
+  background-color: var(--success-tint);
+  color: var(--success);
+  border: 1px solid rgba(94, 125, 91, 0.35);
+}
+.badge-engine-api {
+  background-color: var(--accent-tint);
+  color: var(--accent);
+  border: 1px solid rgba(201, 100, 66, 0.35);
+}
+.badge-engine-policy {
+  background-color: var(--bg-card-subtle);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+.reasoning-trace-box {
+  background-color: var(--bg-card-subtle);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  padding: 12px 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+  line-height: 1.55;
+  margin: 8px 0;
+}
+
 
 /* 6. Text-based tab navigation */
 [data-testid="stTabs"] [role="tablist"],
